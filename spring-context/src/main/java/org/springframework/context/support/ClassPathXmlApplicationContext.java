@@ -18,10 +18,12 @@ package org.springframework.context.support;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 /**
  * Standalone XML application context, taking the context definition files
@@ -139,6 +141,11 @@ public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContex
 			throws BeansException {
 
 		super(parent);
+		/**
+		 * 1. 这边这个方法会去设置 {@link AbstractApplicationContext#environment }的值，默认值是 {@link StandardEnvironment}
+		 * 2. 这个方法主要作用就是解析configLocaltions中特殊的字段，用EL表达式的，比如 spring-${file-beans}.xml，那么这个方法就是将${file-beans}解析成对应值。
+		 * 	  具体解析的方法是是 {@link PropertyPlaceholderHelper#parseStringValue(String, PlaceholderResolver, Set)}
+		 */
 		setConfigLocations(configLocations);
 		if (refresh) {
 			refresh();

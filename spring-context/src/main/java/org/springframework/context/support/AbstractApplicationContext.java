@@ -69,9 +69,7 @@ import org.springframework.context.weaving.LoadTimeWeaverAwareProcessor;
 import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.Environment;
-import org.springframework.core.env.StandardEnvironment;
+import org.springframework.core.env.*;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -516,8 +514,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
 			/**
-			 * 1. 初始化*.properties配置文件
-			 * 2. 校验org.springframework.core.env.ConfigurablePropertyResolver.validateRequiredProperties()必要的参数
+			 *
+			 * 1. 调用{@link org.springframework.core.env.AbstractPropertyResolver#validateRequiredProperties()}方法去检验
+			 * 	  {@link AbstractEnvironment#setRequiredProperties(java.lang.String...)}添加的必备的一些属性是否存在
 			 */
 			prepareRefresh();
 
